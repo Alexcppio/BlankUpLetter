@@ -22,33 +22,52 @@ namespace BlankUpLetter
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            int x = 5;
-            int y = 8;
-            int z = 0;
-            app.Use(async (context, next) =>
-            {
-                z = x * y;
-                await next.Invoke();
-            });
+            app.Map("/words", GetWords);
+            app.Map("/add", Add);
+            app.Map("/delete", Delete);
+            app.Map("/addmany", AddMany);
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync($"x * y = {z}");
+                context.Response.ContentType = AddReg();
+                await context.Response.WriteAsync("Замена первой буквы на большую");
             });
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-
-            //app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync($"Application name: {_env.ApplicationName}\nApplication RootPath:{_env.ContentRootPath}\nApplication Environment: {_env.EnvironmentName}\nApplication WebRootFileProvider: {_env.WebRootFileProvider}");
-            //    });
-            //});
+        }
+        private static string AddReg()
+        {
+            return "text/html; charset=utf-8";
+        }
+        private static void GetWords(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                context.Response.ContentType = AddReg();
+                await context.Response.WriteAsync("Список слов в базе");
+            });
+        }
+        private static void Add(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                context.Response.ContentType = AddReg();
+                await context.Response.WriteAsync("Добавить слово в базу");
+            });
+        }
+        private static void Delete(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                context.Response.ContentType = AddReg();
+                await context.Response.WriteAsync("Удалить слово из базы");
+            });
+        }
+        private static void AddMany(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                context.Response.ContentType = AddReg();
+                await context.Response.WriteAsync("Добавить найденные слова в базу");
+            });
         }
     }
 }
