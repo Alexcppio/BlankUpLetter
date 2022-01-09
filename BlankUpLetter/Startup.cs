@@ -22,6 +22,7 @@ namespace BlankUpLetter
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<GetWordsMiddleware>("12345678");
             app.Map("/words", GetWords);
             app.Map("/add", Add);
             app.Map("/delete", Delete);
